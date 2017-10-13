@@ -1,26 +1,50 @@
 const path = require('path');
+const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin'); // automatically generate output HTML based on index.js
-const CleanWebpackPlugin = require('clean-webpack-plugin'); // delete content from dist folder with each run
 
 module.exports = {
-    entry: './src/index.js',
+    entry: {
+        app: './src/main.ts',
+        vendor: './src/vendor.ts',
+        polyfills: './src/polyfills.ts',
+    },
     output: {
         filename: '[name].[hash].js',
         path: path.resolve(__dirname, './../dist')
     },
     plugins: [
-        new CleanWebpackPlugin(['./dist/*.*'], { root: process.cwd(), verbose: true, dry: false }),
         new HtmlWebpackPlugin({
-            title: 'Angular-webpack-template'
-        })
+            template: 'src/index.html'
+        }),
+        // Workaround for angular/angular#11580
+        new webpack.ContextReplacementPlugin(
+            /angular(\\|\/)core(\\|\/)@angular/,
+            './src',
+            {}
+          )
     ],
     module: {
-        rules: [{
-            test: /\.css$/,
-            use: [
-                'style-loader',
-                'css-loader'
-            ]
-        }]
+        rules: [
+            {
+                test: /\.ts$/,
+                use: [
+                    'awesome-typescript-loader',
+                    'angular2-template-loader'
+                ]
+            },
+            {
+                test: /\.css$/,
+                use: [
+                    'style-loader',
+                    'css-loader'
+                ]
+            },
+            {
+                test: /\.html$/,
+                use: [
+                    'html-loader'
+                ]
+            }
+        ]
     }
 };
