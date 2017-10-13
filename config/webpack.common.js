@@ -31,20 +31,20 @@ module.exports = {
             {
                 test: /\.ts$/,
                 use: [
-                    {
-                        loader: '@angularclass/hmr-loader',
-                        options: {
-                            pretty: true,
-                            prod: false
-                        }
-                    },
-                    {
-                        loader: 'ng-router-loader',
-                        options: {
-                            loader: 'async-import',
-                            genDir: 'compiled',
-                        }
-                    },
+                    // {
+                    //     loader: '@angularclass/hmr-loader',
+                    //     options: {
+                    //         pretty: true,
+                    //         prod: false
+                    //     }
+                    // },
+                    // {
+                    //     loader: 'ng-router-loader',
+                    //     options: {
+                    //         loader: 'async-import',
+                    //         genDir: 'compiled',
+                    //     }
+                    // },
                     {
                         loader: 'awesome-typescript-loader',
                     },

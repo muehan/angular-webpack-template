@@ -5,11 +5,12 @@ import { RouterModule, PreloadAllModules } from '@angular/router';
 
 import { ROUTES } from './app.routes';
 
+// import components here
 import { AppComponent } from './app.component';
+import { HomeComponent } from './home/home.component';
 
+// global styles
 import '../styles/styles.css';
-
-
 
 /**
  * `AppModule` is the main entry point into Angular2's bootstraping process
@@ -18,6 +19,7 @@ import '../styles/styles.css';
   bootstrap: [ AppComponent ],
   declarations: [
     AppComponent,
+    HomeComponent,
   ],
   /**
    * Import Angular's modules.
