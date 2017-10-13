@@ -8,6 +8,9 @@ module.exports = {
         vendor: './src/vendor.ts',
         polyfills: './src/polyfills.ts',
     },
+    resolve: {
+        extensions: ['.ts', '.js', '.json'],
+    },
     output: {
         filename: '[name].[hash].js',
         path: path.resolve(__dirname, './../dist')
@@ -21,22 +24,41 @@ module.exports = {
             /angular(\\|\/)core(\\|\/)@angular/,
             './src',
             {}
-          )
+        )
     ],
     module: {
         rules: [
             {
                 test: /\.ts$/,
                 use: [
-                    'awesome-typescript-loader',
-                    'angular2-template-loader'
+                    {
+                        loader: '@angularclass/hmr-loader',
+                        options: {
+                            pretty: true,
+                            prod: false
+                        }
+                    },
+                    {
+                        loader: 'ng-router-loader',
+                        options: {
+                            loader: 'async-import',
+                            genDir: 'compiled',
+                        }
+                    },
+                    {
+                        loader: 'awesome-typescript-loader',
+                    },
+                    {
+                        loader: 'angular2-template-loader'
+                    }
                 ]
             },
             {
-                test: /\.css$/,
-                use: [
-                    'style-loader',
-                    'css-loader'
+                test: /\.(css|scss)$/,
+                loaders: [
+                    'to-string-loader',
+                    'css-loader',
+                    'sass-loader'
                 ]
             },
             {
