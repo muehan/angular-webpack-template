@@ -4,11 +4,14 @@ const HtmlWebpackPlugin = require('html-webpack-plugin'); // automatically gener
 
 module.exports = {
     entry: {
-        app: './src/main.ts',
-        vendor: './src/vendor.ts',
-        polyfills: './src/polyfills.ts',
+        app: './src/main.ts', // your code
+        vendor: './src/vendor.ts', // third party libraries
+        polyfills: './src/polyfills.ts', // polyfills
     },
     resolve: {
+        /**
+         * This is needed to resolve modules to load
+         */
         extensions: ['.ts', '.js', '.json'],
     },
     output: {
@@ -16,8 +19,13 @@ module.exports = {
         path: path.resolve(__dirname, './../dist')
     },
     plugins: [
+        /**
+         * Dynamically create index files with the hased files names from the output configuration
+         * With tha hashes the browser can easaly cache JS files and reload changed. No need to reload big ventor bundle
+         */
         new HtmlWebpackPlugin({
-            template: 'src/index.html'
+            template: 'src/index.html',
+            title: 'Webpack Angular Template'
         }),
         // Workaround for angular/angular#11580
         new webpack.ContextReplacementPlugin(
