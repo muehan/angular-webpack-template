@@ -1,6 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin'); // automatically generate output HTML based on index.js
+const CheckerPlugin = require('awesome-typescript-loader').CheckerPlugin; 
 
 module.exports = {
     entry: {
@@ -19,6 +20,10 @@ module.exports = {
         path: path.resolve(__dirname, './../dist')
     },
     plugins: [
+        /**
+         * Move type checking from awesome-typescript-loader to other process to improve compilation time
+         */
+        new CheckerPlugin(),
         /**
          * Dynamically create index files with the hased files names from the output configuration
          * With tha hashes the browser can easaly cache JS files and reload changed. No need to reload big ventor bundle
