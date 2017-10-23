@@ -5,9 +5,9 @@ const CheckerPlugin = require('awesome-typescript-loader').CheckerPlugin;
 
 module.exports = {
     entry: {
-        app: './src/main.ts', // your code
-        vendor: './src/vendor.ts', // third party libraries
         polyfills: './src/polyfills.ts', // polyfills
+        vendor: './src/vendor.ts', // third party libraries
+        app: './src/main.ts', // your code
     },
     resolve: {
         /**
@@ -32,12 +32,23 @@ module.exports = {
             template: 'src/index.html',
             title: 'Webpack Angular Template'
         }),
+        new ScriptExtHtmlWebpackPlugin({
+            sync: /polyfills|vendor/,
+            defaultAttribute: 'async',
+            preload: [/polyfills|vendor|main/],
+            prefetch: [/chunk/]
+        }),
         // Workaround for angular/angular#11580
         new webpack.ContextReplacementPlugin(
             /angular(\\|\/)core(\\|\/)@angular/,
             './src',
             {}
-        )
+        ),
+        // It identifies common modules and put them into a commons chunk.
+        new CommonsChunkPlugin({
+            name: 'polyfills',
+            chunks: ['polyfills']
+        }),
     ],
     module: {
         rules: [
@@ -68,12 +79,12 @@ module.exports = {
                 ]
             },
             {
-                test: /\.(css|scss)$/,
-                loaders: [
-                    'to-string-loader',
-                    'css-loader',
-                    'sass-loader'
-                ]
+                test: /\.css$/,
+                use: ['to-string-loader', 'style-loader', 'css-loader'],
+            },
+            {
+                test: /\.scss$/,
+                use: ['to-string-loader', 'style-loader', 'css-loader', 'sass-loader'],
             },
             {
                 test: /\.html$/,

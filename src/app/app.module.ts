@@ -10,7 +10,7 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 
 // global styles
-import '../styles/styles.css';
+import '../styles/styles.scss';
 
 /**
  * `AppModule` is the main entry point into Angular2's bootstraping process
